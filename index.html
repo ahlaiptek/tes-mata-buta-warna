@@ -108,7 +108,6 @@
           submitButton.classList.add("btn", "btn-primary", "mt-3");
           submitButton.textContent = "Submit";
           submitButton.addEventListener("click", function () {
-            this.preventDefault();
 
             const userInput = input.value.trim().toUpperCase();
             const result = {
