@@ -1,157 +1,159 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Color Vision</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Font Awesome -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-  <style>
-    /* Your CSS styles */
-  </style>
-</head>
-<body>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tes Buta Warna</title>
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Your CSS styles */
+    </style>
+  </head>
+  <body>
+    <!-- Content -->
+    <section>
+      <div class="container p-5">
+        <h1 class="mb-4 text-center">Tes Buta Warna</h1>
+        <form id="colorBlindnessForm">
+          <!-- Placeholder for questions -->
+        </form>
+        <div id="resultTable" style="display: none">
+          <h2 class="text-center">Results</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Pertanyaan</th>
+                <th>Gambar</th>
+                <th>Jawaban Benar</th>
+                <th>Jawabanmu</th>
+                <th>Hasil</th>
+              </tr>
+            </thead>
+            <tbody id="resultTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-dark">
-  <!-- Navbar content -->
-</nav>
+    <!-- Load lodash library -->
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("colorBlindnessForm");
+        const questions = [
+          { image: "1", answer: "X" },
+          { image: "2", answer: "Q" },
+          { image: "3", answer: "99" },
+          { image: "4", answer: "9" },
+          { image: "5", answer: "62" },
 
-<!-- Content -->
-<section>
-  <div class="container p-5">
-    <h1 class="mb-4 text-center">Color Blindness Test</h1>
-    <form id="colorBlindnessForm">
-      <!-- Placeholder for questions -->
-    </form>
-    <div id="resultTable" style="display: none;">
-      <h2 class="text-center">Results</h2>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Question</th>
-            <th>Image</th>
-            <th>Correct Answer</th>
-            <th>Your Answer</th>
-            <th>Result</th>
-          </tr>
-        </thead>
-        <tbody id="resultTableBody"></tbody>
-      </table>
-    </div>
-  </div>
-</section>
+          // { image: "6", answer: "98" },
+          // { image: "7", answer: "2" },
+          // { image: "8", answer: "60" },
+          // { image: "9", answer: "2" },
+          // { image: "10", answer: "4" },
+          // { image: "11", answer: "8" },
+          // { image: "12", answer: "3" },
+          // { image: "13", answer: "5" },
+          // { image: "14", answer: "1" },
+          // { image: "15", answer: "9" },
+          // { image: "16", answer: "6" },
+          // { image: "17", answer: "15" },
+          // { image: "18", answer: "15" },
+          // { image: "19", answer: "3" },
+          // { image: "20", answer: "0" }
+        ];
 
-<!-- Load lodash library -->
-<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
-<!-- Bootstrap JS (optional) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const form = document.getElementById("colorBlindnessForm");
-    const questions = [
-      { image: "1", answer: "X" },
-      { image: "2", answer: "Q" },
-      { image: "3", answer: "99" },
-      { image: "4", answer: "9" },
+        // Shuffle the questions and take the first 5
+        const shuffledQuestions = _.shuffle(questions).slice(0, 5);
+        console.log(shuffledQuestions);
 
-      { image: "5", answer: "62" },
-      { image: "6", answer: "98" },
+        const results = [];
 
-      // { image: "7", answer: "2" },
-      // { image: "8", answer: "60" },
-      // { image: "9", answer: "2" },
-      // { image: "10", answer: "4" },
-      // { image: "11", answer: "8" },
-      // { image: "12", answer: "3" },
-      // { image: "13", answer: "5" },
-      // { image: "14", answer: "1" },
-      // { image: "15", answer: "9" },
-      // { image: "16", answer: "6" },
-      // { image: "17", answer: "15" },
-      // { image: "18", answer: "15" },
-      // { image: "19", answer: "3" },
-      // { image: "20", answer: "0" }
-    ];
+        function displayQuestion() {
+          const question = shuffledQuestions.pop();
+          const questionDiv = document.createElement("div");
+          questionDiv.classList.add("mb-3");
 
-    // Shuffle the questions and take the first 5
-    const shuffledQuestions = _.shuffle(questions).slice(0, 5);
-    console.log(shuffledQuestions)
+          const imageSrc = "images/image" + question.image + ".jpg";
+          const image = document.createElement("img");
+          image.src = imageSrc;
+          image.classList.add("img-fluid");
+          image.alt = "Question " + question.image;
+          questionDiv.appendChild(image);
 
-    const results = [];
+          const label = document.createElement("label");
+          label.htmlFor = "answer";
+          label.classList.add("form-label");
+          label.textContent = "Masukkan karakter yang anda lihat:";
+          questionDiv.appendChild(label);
 
-    function displayQuestion() {
-      const question = shuffledQuestions.pop();
-      const questionDiv = document.createElement("div");
-      questionDiv.classList.add("mb-3");
+          const input = document.createElement("input");
+          input.type = "text";
+          input.classList.add("form-control");
+          input.id = "answer";
+          input.name = "answer";
+          questionDiv.appendChild(input);
 
-      const imageSrc = "images/image" + question.image + ".jpg"; 
-      const image = document.createElement("img");
-      image.src = imageSrc;
-      image.classList.add("img-fluid");
-      image.alt = "Question " + question.image;
-      questionDiv.appendChild(image);
+          const submitButton = document.createElement("button");
+          submitButton.type = "button";
+          submitButton.classList.add("btn", "btn-primary", "mt-3");
+          submitButton.textContent = "Submit";
+          submitButton.addEventListener("click", function () {
+            this.preventDefault();
 
-      const label = document.createElement("label");
-      label.htmlFor = "answer";
-      label.classList.add("form-label");
-      label.textContent = "Enter the alphabet or number you see:";
-      questionDiv.appendChild(label);
+            const userInput = input.value.trim().toUpperCase();
+            const result = {
+              questionIndex: question.image,
+              correctAnswer: question.answer,
+              userAnswer: userInput,
+              result: userInput === question.answer ? "Benar" : "Salah",
+            };
+            results.push(result);
 
-      const input = document.createElement("input");
-      input.type = "text";
-      input.classList.add("form-control");
-      input.id = "answer";
-      input.name = "answer";
-      questionDiv.appendChild(input);
+            if (shuffledQuestions.length > 0) {
+              form.innerHTML = "";
+              displayQuestion();
+            } else {
+              showResults();
+            }
+          });
+          questionDiv.appendChild(submitButton);
 
-      const submitButton = document.createElement("button");
-      submitButton.type = "button";
-      submitButton.classList.add("btn", "btn-primary");
-      submitButton.textContent = "Submit";
-      submitButton.addEventListener("click", function() {
-        const userInput = input.value.trim().toUpperCase();
-        const result = { 
-          questionIndex: question.image,
-          correctAnswer: question.answer,
-          userAnswer: userInput,
-          result: userInput === question.answer ? 'Correct' : 'Incorrect'
-        };
-        results.push(result);
-
-        if (shuffledQuestions.length > 0) {
-          form.innerHTML = ""; 
-          displayQuestion(); 
-        } else {
-          showResults();
+          form.appendChild(questionDiv);
         }
-      });
-      questionDiv.appendChild(submitButton);
 
-      form.appendChild(questionDiv);
-    }
-
-    function showResults() {
-      const resultTableBody = document.getElementById("resultTableBody");
-      results.forEach(function(result, index) {
-        const row = document.createElement("tr");
-        row.innerHTML = `
+        function showResults() {
+          const resultTableBody = document.getElementById("resultTableBody");
+          results.forEach(function (result, index) {
+            const row = document.createElement("tr");
+            row.innerHTML = `
           <td>${index + 1}</td>
-          <td><img src="images/image${result.questionIndex}.jpg" class="img-fluid" alt="Question ${result.questionIndex}"></td>
+          <td><img src="images/image${
+            result.questionIndex
+          }.jpg" class="img-fluid" alt="Question ${result.questionIndex}"></td>
           <td>${result.correctAnswer}</td>
           <td>${result.userAnswer}</td>
           <td>${result.result}</td>
         `;
-        resultTableBody.appendChild(row);
-      });
-      document.getElementById("resultTable").style.display = "block";
-    }
+            resultTableBody.appendChild(row);
+          });
+          document.getElementById("resultTable").style.display = "block";
+        }
 
-    displayQuestion();
-  });
-</script>
-  
-</body>
+        displayQuestion();
+      });
+    </script>
+  </body>
 </html>
